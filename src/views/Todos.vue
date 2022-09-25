@@ -1,38 +1,75 @@
-<script setup>
-import { ref } from "vue";
-const todoItem = ref(["cong viec 1", "Cong viec 2"]);
+<script >
+import { ref } from "vue"
+import TodoItem from "./TodoItem.vue"
+import AddTodo from "./AddTodo.vue"
+import axios from "axios"
+
+export default {
+  components:{TodoItem, AddTodo},
+  setup() {
+    const todoItem = ref([])
+    const getAllTodo = async () => {
+      try {
+        const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
+        todoItem.value = res.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllTodo()
+
+    const markItemCompleted = (id) => {
+      todoItem.value[id-1].completed = !todoItem.value[id-1].completed
+    }
+    const deleteTodo = async (id) => {
+      try {
+        await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+        todoItem.value = todoItem.value.filter(todo => todo.id !== id)
+      } catch (error) {
+        console.log(error)
+      }
+      
+    }
+    const addTodo = async (value) => {
+      try {
+        const newTodo = {
+          id: todoItem.value.length+1,
+          title: value,
+          completed: false
+        }
+        const res = await axios.post('https://jsonplaceholder.typicode.com/todos', newTodo)
+        todoItem.value.push(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+      
+    }
+
+    return {
+      todoItem,
+      markItemCompleted,
+      deleteTodo,
+      addTodo,
+    }
+  }
+}
 </script>
 
 <template>
   <div class="wrapper">
-    <div class="todo-item is-completed" v-for="item in todoItem" :key="item">
-      <div><input type="checkbox" /> &ensp; {{ item }}</div>
-      <button class="del-btn">Delete</button>
-    </div>
+    <AddTodo @addItem="addTodo" />
+    <TodoItem v-for="todo in todoItem" :key="todo.id" :todoProps="todo"
+     @completed="markItemCompleted" @deleted="deleteTodo"/>
   </div>
 </template>
 
-<style>
+<style scoped>
 .wrapper {
   width: 100wh;
   height: 70vh;
   background-color: antiquewhite;
-}
-.todo-item {
-  background-color: #f4f4f4;
-  border-bottom: 1px dotted #ccc;
-  margin: 0;
-  padding: 20px 50px;
-
   display: flex;
-  justify-content: space-between;
-}
-.is-completed{
-    text-decoration: line-through;
-}
-.del-btn{
-    cursor: pointer;
-    border: none;
-    background-color: red;
+  flex-direction: column;
+  
 }
 </style>

@@ -19,7 +19,6 @@ const title = ref("Cong viec can lam");
 </template>
 
 <style scoped>
-header{
-}
+
 
 </style>
