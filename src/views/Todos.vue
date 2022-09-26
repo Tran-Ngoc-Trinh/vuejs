@@ -41,6 +41,7 @@ export default {
         todoItem.value.push(res.data)
       } catch (error) {
         console.log(error)
+        
       }
       
     }
@@ -51,7 +52,8 @@ export default {
       deleteTodo,
       addTodo,
     }
-  }
+  },
+  
 }
 </script>
 
@@ -59,7 +61,7 @@ export default {
   <div class="wrapper">
     <AddTodo @addItem="addTodo" />
     <TodoItem v-for="todo in todoItem" :key="todo.id" :todoProps="todo"
-     @completed="markItemCompleted" @deleted="deleteTodo"/>
+     @completed="markItemCompleted" @deleted="deleteTodo" />
   </div>
 </template>
 
