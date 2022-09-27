@@ -1,4 +1,4 @@
-<script setup>
+<script setup >
 import Header from "./components/Header.vue";
 import Todos from "./views/Todos.vue"
 import { ref } from 'vue'
