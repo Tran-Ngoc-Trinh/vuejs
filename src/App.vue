@@ -1,12 +1,9 @@
 <script setup >
-import Header from "./components/Header.vue";
-import Todos from "./views/Todos.vue"
-import { ref, onMounted, onUpdated } from 'vue'
+import {  computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-const title = ref("Cong viec can lam");
 const route = useRoute()
-console.log(route)
+const layout = computed(() => route.meta.layout || "" )
 </script>
 
 
@@ -14,7 +11,8 @@ console.log(route)
 <template>
   <header>
     <div class="wrapper">
-      <Header :title="title"/>
+      <component :is="layout" title="Cong viec can lam">
+      </component>
       <router-view></router-view>
     </div>
   </header>
