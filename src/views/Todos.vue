@@ -1,7 +1,7 @@
 <script >
 import { ref } from "vue"
-import TodoItem from "./TodoItem.vue"
-import AddTodo from "./AddTodo.vue"
+import TodoItem from "../components/TodoItem.vue"
+import AddTodo from "../components/AddTodo.vue"
 import axios from "axios"
 
 export default {
